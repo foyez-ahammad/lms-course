@@ -1,0 +1,40 @@
+{% if course|length < 1 %} <div class="jumbotron" style="margin-left:40%;">
+    <h1 class="display-4"><b>OOPS!</b></h1>
+    <b>Course Not Found!</b>
+    </div>
+    {% else %}
+    {% for co in course %}
+    <div class="col-12 col-md-6 col-xl-4 col-wd-3 pb-4 pb-md-7" style="padding-right:5px;padding-left:5px;">
+        <!-- Card -->
+        <div class="card border shadow p-2 lift sk-fade">
+            <!-- Image -->
+            <div class="card-zoom position-relative">
+                <a href="{{co.get_absolute_url}}" class="card-img sk-thumbnail d-block">
+                    <img class="rounded shadow-light-lg" src="{{co.featured_image}}">
+                </a>
+
+                <span
+                    class="badge sk-fade-bottom badge-lg badge-primary badge-pill badge-float bottom-0 left-0 mb-4 ms-4">
+                    <span class="text-white text-uppercase fw-bold font-size-xs">{{co.level.name}}</span>
+                </span>
+            </div>
+
+            <!-- Footer -->
+            <div class="card-footer px-2 pb-2 mb-1 pt-4 position-relative">
+                <div href="instructors-single.html" class="d-block">
+                    <div
+                        class="avatar sk-fade-right avatar-xl badge-float position-absolute top-0 right-0 mt-n6 me-5 rounded-circle shadow border border-white border-w-lg">
+                        <img src="{{co.author.author_profile}}" class="avatar-img rounded-circle">
+                    </div>
+                </div>
+                <span class="mb-1 d-inline-block text-gray-800"><i class="{{co.category.icon}}"></i>
+                    {{co.category.name}}</span>
+
+                <a href="{{co.get_absolute_url}}">
+                    <h4> {{co.title|truncatechars:25}} </h4>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}

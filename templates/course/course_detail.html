@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+{% block title %}{{course.title}}{% endblock %}
+{% load static %}
+{% load course_tags %}
+{% block content %}
+
+<!-- BREADCRUMBS ================================================== -->
+<div class="container">
+    <nav class="mb-5 mb-md-8 mt-2" aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-scroll">
+            <li class="breadcrumb-item">
+                <a class="text-gray-800" href="{% url 'home' %}">
+                    Home
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a class="text-gray-800" href="{% url 'course' %}">
+                    Courses
+                </a>
+            </li>
+            <li class="breadcrumb-item text-gray-800 active" aria-current="page">
+                {{course.title}}
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<!-- COURSE
+    ================================================== -->
+<div class="container">
+    <div class="row mb-8">
+        <div class="col-lg-8 mb-6 mb-lg-0 position-relative">
+            <h1 class="me-7 me-xl-14">
+                {{course.title}}
+            </h1>
+
+            <!-- COURSE INFO TAB ================================================== -->
+
+            <div id="Overview" class="mb-8">
+                <ul class="nav course-tab-v1 border-bottom h4 mb-8">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#Overview" data-bs-toggle="smooth-scroll"
+                            data-bs-offset="0">Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Curriculum" data-bs-toggle="smooth-scroll"
+                            data-bs-offset="0">Curriculum</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Instructor" data-bs-toggle="smooth-scroll"
+                            data-bs-offset="0">Instructor</a>
+                    </li>
+                </ul>
+
+                <h3 class="">Course Description</h3>
+                <p class="mb-6 line-height-md"> {{course.description|slice:"0:400"}}</p>
+                <p class="collapse mb-6 line-height-md" id="readcollapseExample">{{course.description|slice:"400:"}}</p>
+                <a class="text-teal read-more h6 d-inline-block mb-8" data-bs-toggle="collapse"
+                    href="#readcollapseExample" role="button" aria-expanded="false" aria-controls="readcollapseExample">
+                    <span class="d-inline-flex align-items-center more">
+                        Read More
+                        <span
+                            class="d-flex align-items-center justify-content-center bg-teal rounded-circle ms-2 p-2 w-26p">
+                            <i class="fas fa-plus font-size-10 text-white"></i>
+                        </span>
+                    </span>
+                    <span class="d-inline-flex align-items-center less">
+                        Read Less
+                        <span
+                            class="d-flex align-items-center justify-content-center bg-teal rounded-circle ms-2 p-2 w-26p">
+                            <i class="fas fa-minus font-size-10 text-white"></i>
+                        </span>
+                    </span>
+                </a>
+
+                <h3 class="mb-5">What you'll learn</h3>
+                <div class="row row-cols-lg-2 mb-8">
+                    <div class="col-md">
+                        <ul class="list-style-v2 list-unstyled">
+                            {% for points in course.whatyoulearn_set.all|slice:"0:5" %}
+                            <li>{{points.learn_point}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="col-md">
+                        <ul class="list-style-v2 list-unstyled ms-xl-6">
+                            {% for points in course.whatyoulearn_set.all|slice:"5:10" %}
+                            <li>{{points.learn_point}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="mb-5">Requirements</h3>
+                <ul class="list-style-v1 list-unstyled">
+                    {% for points in course.requirements_set.all|slice:"0:" %}
+                    <li>{{points.require_point}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div id="Curriculum" class="mb-8">
+                <ul class="nav course-tab-v1 border-bottom h4 mb-8">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Overview" data-bs-toggle="smooth-scroll"
+                            data-bs-offset="0">Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#Curriculum" data-bs-toggle="smooth-scroll"
+                            data-bs-offset="0">Curriculum</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Instructor" data-bs-toggle="smooth-scroll"
+                            data-bs-offset="0">Instructor</a>
+                    </li>
+                </ul>
+
+                <div id="accordionCurriculum">
+
+                    {% for lesson in course.lesson_set.all %}
+                    <div class="border rounded shadow mb-6 overflow-hidden">
+                        <div class="d-flex align-items-center" id="curriculumheadingOne">
+                            <h5 class="mb-0 w-100">
+                                <button
+                                    class="d-flex align-items-center p-5 min-height-80 text-dark fw-medium collapse-accordion-toggle line-height-one"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#id{{lesson.id}}"
+                                    aria-expanded="true" aria-controls="CurriculumcollapseOne">
+                                    <span class="me-4 text-dark d-flex">
+                                        <!-- Icon -->
+                                        <svg width="15" height="2" viewBox="0 0 15 2" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="15" height="2" fill="currentColor" />
+                                        </svg>
+
+                                        <svg width="15" height="16" viewBox="0 0 15 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M0 7H15V9H0V7Z" fill="currentColor" />
+                                            <path d="M6 16L6 8.74228e-08L8 0L8 16H6Z" fill="currentColor" />
+                                        </svg>
+
+                                    </span>
+
+                                    {{lesson.name}}
+                                </button>
+                            </h5>
+                            <div class="badge btn-black-soft me-5 font-size-sm fw-normal py-2">{{lesson.video_set.all.count}} Lectures . 20 Min
+                            </div>
+                        </div>
+
+                        {% for video in lesson.video_set.all %}
+                        <div id="id{{video.lesson.id}}" class="collapse show" aria-labelledby="curriculumheadingOne"
+                            data-parent="#accordionCurriculum">
+                            <div class="border-top px-5 py-4 min-height-70 d-md-flex align-items-center">
+                                <div class="d-flex align-items-center me-auto mb-4 mb-md-0">
+                                    <div class="text-secondary d-flex">
+                                        <i class="fab fa-youtube" style="color: red;"></i>
+                                    </div>
+
+                                    <div class="ms-4">
+                                        {{video.title}}
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="d-flex align-items-center overflow-auto overflow-md-visible flex-shrink-all">
+                                    {% comment %} <div class="badge text-dark-70 bg-orange-40 me-5 font-size-sm fw-normal py-2">3 Exercise</div> {% endcomment %}
+                                    <div class="badge btn-blue-soft me-5 font-size-sm fw-normal py-2">{{video.duration}} Min</div>
+                                    <a href="#" class="text-secondary d-flex">
+                                        <!-- Icon -->
+                                        {% if user.is_authenticated%}
+                                        <a href="https://www.youtube.com/watch?v={{video.youtube_id}}" class="rounded" data-fancybox> <i class="fa fa-play"></i> </a>
+                                        {% else %}
+                                        <i class="fa fa-lock" data-toggle="tooltip" title="Need Login"></i>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div id="Instructor" class="mb-8">
+                <ul class="nav course-tab-v1 border-bottom h4 mb-8">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Overview" data-bs-toggle="smooth-scroll"
+                            data-bs-offset="0">Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Curriculum" data-bs-toggle="smooth-scroll"
+                            data-bs-offset="0">Curriculum</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#Instructor" data-bs-toggle="smooth-scroll"
+                            data-bs-offset="0">Instructor</a>
+                    </li>
+                </ul>
+
+                <h3 class="mb-6">About the instructor</h3>
+
+                <div class="d-flex align-items-center mb-6">
+                    <div class="d-inline-block rounded-circle border me-6 p-2">
+                        <div class="avatar avatar-size-120">
+                            <img src="/{{course.author.author_profile}}" alt="..." class="avatar-img rounded-circle">
+                        </div>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="mb-0">{{course.author.name}}</h5>
+                        <span>{{course.author.skill}}</span>
+                    </div>
+                    <div class="media-body px-10">
+                        <h5 class="mb-0">Total Courses</h5><i class="fa fa-play"></i>
+                        <span>29 courses</span>
+                    </div>
+                    <div class="media-body ">
+                        <h5 class="mb-0">Channel</h5><i class="fab fa-youtube" style="color: red;"></i> <span><a href="{{course.author.yt_url}}">YouTube</a></span>
+                    </div>
+                </div>
+                <p class="mb-6 line-height-md">{{course.author.about_author}}</p>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- SIDEBAR FILTER ================================================== -->
+            <div class="d-block rounded border p-2 shadow mb-6">
+                <a href="https://www.youtube.com/watch?v={{course.featured_video}}" class="d-block sk-thumbnail rounded mb-1"
+                    data-fancybox>
+                    <div
+                        class="h-60p w-60p rounded-circle bg-white size-14-all d-inline-flex align-items-center justify-content-center position-absolute center z-index-1">
+                        <!-- Icon -->
+                        <i class="fa fa-play"></i>
+                    </div>
+                    <img class="rounded shadow-light-lg" src="/{{course.featured_image}}">
+                </a>
+
+                <div class="pt-5 pb-4 px-5 px-lg-3 px-xl-5">
+                    <a class="btn btn-primary btn-block mb-3" href="/course/watch/{{course.slug}}">Start Course</a>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex align-items-center py-3" style="background-color:#F7F9FB">
+                        </li>
+                        <li class="list-group-item d-flex align-items-center py-3" style="background-color:#F7F9FB">
+                            <div class="text-secondary d-flex icon-uxs">
+                                <!-- Icon -->
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h6 class="mb-0 ms-3 me-auto">Created by</h6>
+                            <span>@{{course.author.name|lower}}</span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center py-3" style="background-color:#F7F9FB">
+                            <div class="text-secondary d-flex icon-uxs">
+                                <!-- Icon -->
+                                <i class="fas fa-sitemap"></i>
+                            </div>
+                            <h6 class="mb-0 ms-3 me-auto">Category</h6>
+                            <span>{{course.category.name}} </span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center py-3" style="background-color:#F7F9FB">
+                            <div class="text-secondary d-flex icon-uxs">
+                                <!-- Icon -->
+                                <i class="fa fa-clock"></i>
+                            </div>
+                            <h6 class="mb-0 ms-3 me-auto">Duration</h6>
+                            <span>{{duration.sum}} min</span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center py-3" style="background-color:#F7F9FB">
+                            <div class="text-secondary d-flex icon-uxs">
+                                <!-- Icon -->
+                                <i class="fa fa-book-open"></i>
+                            </div>
+                            <h6 class="mb-0 ms-3 me-auto">Lectures</h6>
+                            <span>{{course.video_set.all.count}}</span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center py-3" style="background-color:#F7F9FB">
+                            <div class="text-secondary d-flex icon-uxs">
+                                <!-- Icon -->
+                                <i class="fa fa-language"></i>
+                            </div>
+                            <h6 class="mb-0 ms-3 me-auto">Language</h6>
+                            <span>{{course.language}}</span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center py-3" style="background-color:#F7F9FB">
+                            <div class="text-secondary d-flex icon-uxs">
+                                <!-- Icon -->
+                                <i class="fa fa-briefcase"></i>
+                            </div>
+                            <h6 class="mb-0 ms-3 me-auto">Skill level</h6>
+                            <span>{{course.level}}</span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center py-3" style="background-color:#F7F9FB">
+                            <div class="text-secondary d-flex icon-uxs">
+                                <!-- Icon -->
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <h6 class="mb-0 ms-3 me-auto">Deadline</h6>
+                            <span>{{course.deadline}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

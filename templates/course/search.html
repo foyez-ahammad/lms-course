@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Search Result{% endblock %}
+{% load static %}
+{% block content %}
+{% load course_tags %}
+
+<section class="pt-5 pb-9 py-md-11 bg-white">
+    <div class="container container-wd">
+        <div class="row align-items-end mb-7">
+            <div class="col-xl mb-5 mb-xl-0">
+                <h1 class="mb-1">Search Reasult:</h1>
+                <hr>
+            </div>
+        </div>
+
+        <div class="tab-content flickity-tab" id="pills-tabContent">
+            {% if course|length < 1 %} 
+                <div class="jumbotron" style="margin-left:40%;">
+                    <h1 class="display-4"><b>OOPS!</b></h1>
+                    <b>Course Not Found!</b>
+                </div>
+            {% else %}
+
+            <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+                <!-- Items -->
+                <div class="row">
+                    {% for co in course %}
+                    <div class="col-12 col-md-6 col-xl-3 col-wd-3 pb-4 pb-md-7"
+                        style="padding-right:5px;padding-left:5px;">
+                        <!-- Card -->
+                        <div class="card border shadow p-2 lift sk-fade">
+                            <!-- Image -->
+                            <div class="card-zoom position-relative">
+                                <a href="{{co.get_absolute_url}}" class="card-img sk-thumbnail d-block">
+                                    <img class="rounded shadow-light-lg" src="{{co.featured_image}}">
+                                </a>
+
+                                <span class="badge sk-fade-bottom badge-lg badge-primary badge-pill badge-float bottom-0 left-0 mb-4 ms-4">
+                                    <span class="text-white text-uppercase fw-bold font-size-xs">{{co.level.name}}</span>
+                                </span>
+                            </div>
+
+                            <!-- Footer -->
+                            <div class="card-footer px-2 pb-2 mb-1 pt-4 position-relative">
+                                <div href="instructors-single.html" class="d-block">
+                                    <div class="avatar sk-fade-right avatar-xl badge-float position-absolute top-0 right-0 mt-n6 me-5 rounded-circle shadow border border-white border-w-lg">
+                                        <img src="{{co.author.author_profile}}" class="avatar-img rounded-circle">
+                                    </div>
+                                </div>
+                                <span class="mb-1 d-inline-block text-gray-800"><i class="{{co.category.icon}}"></i> {{co.category.name}}</span>
+
+                                <a href="{{co.get_absolute_url}}"><h4> {{co.title|truncatechars:25}} </h4></a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock%}
